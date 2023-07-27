@@ -7,9 +7,15 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(thirdparty/glm)
 add_subdirectory(thirdparty/glfw)
 
-file(GLOB SOURCES "src/*.cpp", "src/*/*.cpp", "src/*/*/*.cpp")
+#file(GLOB SOURCES "src/*.cpp" "src/*/*.cpp" "src/*/*/*.cpp")
+set(SOURCES
+    src/engine.cpp
+)
 
-add_library(${PROJECT_NAME} ${SOURCES})
+list(APPEND SOURCES src/of_pch.cpp)
+
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
+target_compile_definitions(${PROJECT_NAME} PRIVATE ON1F_EXPORT)
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC

@@ -1,7 +1,6 @@
 #pragma once
 
-struct On1FourEngine
-{
-  static void Init();
-};
+#include <core/defines.h>
+
+ON1F_API void print_int(i32 i);
 
