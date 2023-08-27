@@ -41,7 +41,7 @@ target_link_libraries(${PROJECT_NAME}
 
 )
 #link_directories(${VULKAN_PATH}/Bin;${VULKAN_PATH}/Lib32;)
-set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/w4251")
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/4251")
 
 target_link_directories(${PROJECT_NAME} 
     PUBLIC
