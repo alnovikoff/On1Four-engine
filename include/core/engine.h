@@ -4,6 +4,8 @@
 #include <core/defines.h>
 #include <of_pch.h>
 
+#include <drivers/vulkan/vulkan_frame.h>
+
 namespace O1F4Engine
 {
   class ON1F_API Engine
@@ -39,7 +41,7 @@ private:
     vk::Queue graphicsQueue{nullptr};
     vk::Queue presentQueue{nullptr};
     vk::SwapchainKHR swapchain;
-    std::vector<vk::Image> swapchainImages;
+    std::vector<O1F4VulkanUtil::SwapchainFrame> swapchainFrames;
     vk::Format swapchainFormat;
     vk::Extent2D swapchainExtent;
 

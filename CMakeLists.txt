@@ -13,7 +13,10 @@ set(SOURCES
     src/core/engine.cpp
     src/drivers/vulkan/vulkan_instance.cpp
     src/drivers/vulkan/vulkan_logging.cpp
+    src/drivers/vulkan/vulkan_queue_family.cpp
     src/drivers/vulkan/vulkan_device.cpp
+    src/drivers/vulkan/vulkan_swapchain.cpp
+    src/drivers/vulkan/vulkan_frame.cpp
 )
 
 #file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp,${PROJECT_SOURCE_DIR}/src/*/*.cpp, ${PROJECT_SOURCE_DIR}/src/*/*/*.cpp )

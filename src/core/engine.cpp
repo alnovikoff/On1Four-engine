@@ -3,6 +3,7 @@
 #include <drivers/vulkan/vulkan_instance.h>
 #include <drivers/vulkan/vulkan_logging.h>
 #include <drivers/vulkan/vulkan_device.h>
+#include <drivers/vulkan/vulkan_swapchain.h>
 
 namespace O1F4Engine
 {
@@ -81,13 +82,17 @@ namespace O1F4Engine
     O1F4Vulkan::query_swapchain_support(physicalDevice, surface, true);
     O1F4Vulkan::SwapchainBundle bundle = O1F4Vulkan::create_swapchain(device, physicalDevice, surface, width, height, isDebugMode);
     swapchain = bundle.swapchain;
-    swapchainImages = bundle.images;
+    swapchainFrames = bundle.frames;
     swapchainFormat = bundle.format;
     swapchainExtent = bundle.extent;
   }
 
   Engine::~Engine()
   {
+    for(O1F4VulkanUtil::SwapchainFrame frame : swapchainFrames)
+    {
+      device.destroyImageView(frame.imageView);
+    }
     device.destroySwapchainKHR(swapchain);
     device.destroy();
     instance.destroySurfaceKHR(surface);
