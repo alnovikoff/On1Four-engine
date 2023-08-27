@@ -21,6 +21,8 @@ private:
     int height{480};
     GLFWwindow *window{nullptr};
 
+    //nrt::Vector<int> vecTest;
+
     // Vulkan instance
     vk::Instance instance{nullptr};
 
@@ -29,9 +31,17 @@ private:
 
     // Dynamic instance dispatcher
     vk::DispatchLoaderDynamic dldi;
+    vk::SurfaceKHR surface;
 
     // Device - related variable
     vk::PhysicalDevice physicalDevice{nullptr};
+    vk::Device device{nullptr};
+    vk::Queue graphicsQueue{nullptr};
+    vk::Queue presentQueue{nullptr};
+    vk::SwapchainKHR swapchain;
+    std::vector<vk::Image> swapchainImages;
+    vk::Format swapchainFormat;
+    vk::Extent2D swapchainExtent;
 
     void build_glfw_window();
 

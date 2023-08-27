@@ -11,8 +11,6 @@ namespace O1F4Engine
     build_glfw_window();
 
     make_instance();
-    
-    make_debug_messenger();
 
     make_device();
   }
@@ -51,22 +49,53 @@ namespace O1F4Engine
   {
     instance = O1F4Vulkan::create_vulkan_instance(isDebugMode, "On1Four Engine");
     dldi = vk::DispatchLoaderDynamic(instance, vkGetInstanceProcAddr);
+    if(isDebugMode)
+    {
+      debugMessenger = O1F4Vulkan::make_debug_messenger(instance, dldi);
+    }
+    VkSurfaceKHR c_style_surface;
+    if(glfwCreateWindowSurface(instance, window, nullptr, &c_style_surface) != VK_SUCCESS)
+    {
+      if(isDebugMode)
+      {
+        std::cout << "Failed to create abstract the glfwsurface for Vulkan\n";
+      }
+    }
+    else
+    {
+      if(isDebugMode)
+      {
+        std::cout << "Successfully abstracteds the glfwsurface for Vulkan\n";
+      }
+    }
+    surface = c_style_surface;
   }
 
   void Engine::make_device() 
   {
     physicalDevice = O1F4Vulkan::choose_physical_device(instance, isDebugMode);
-    O1F4Vulkan::findQueueFamilies(physicalDevice, isDebugMode);
-  }
-
-  void Engine::make_debug_messenger()
-  {
-    debugMessenger = O1F4Vulkan::make_debug_messenger(instance, dldi);
+    device = O1F4Vulkan::create_logical_device(physicalDevice, surface, isDebugMode);
+    std::array<vk::Queue, 2> queues = O1F4Vulkan::get_queue(physicalDevice, surface, device, isDebugMode);
+    graphicsQueue = queues[0];
+    presentQueue = queues[1];
+    O1F4Vulkan::query_swapchain_support(physicalDevice, surface, true);
+    O1F4Vulkan::SwapchainBundle bundle = O1F4Vulkan::create_swapchain(device, physicalDevice, surface, width, height, isDebugMode);
+    swapchain = bundle.swapchain;
+    swapchainImages = bundle.images;
+    swapchainFormat = bundle.format;
+    swapchainExtent = bundle.extent;
   }
 
   Engine::~Engine()
   {
-    instance.destroyDebugUtilsMessengerEXT(debugMessenger, nullptr, dldi);
+    device.destroySwapchainKHR(swapchain);
+    device.destroy();
+    instance.destroySurfaceKHR(surface);
+
+    if(isDebugMode)
+    {
+      instance.destroyDebugUtilsMessengerEXT(debugMessenger, nullptr, dldi);
+    }
     instance.destroy();
     glfwTerminate();
   }

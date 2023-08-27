@@ -41,11 +41,7 @@ target_link_libraries(${PROJECT_NAME}
 
 )
 #link_directories(${VULKAN_PATH}/Bin;${VULKAN_PATH}/Lib32;)
-target_compile_options(${PROJECT_NAME}
-    PRIVATE
-        /W4
-        /wd4251  # Disable warning C4251
-)
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/w4251")
 
 target_link_directories(${PROJECT_NAME} 
     PUBLIC

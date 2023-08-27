@@ -22,7 +22,8 @@
 #include <windows.h>
 #endif
 
-#include <GLFW/glfw3.h>
 #include <vulkan/vulkan.hpp>
+#define GGLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
 
 #endif // OF_PCH_H
