@@ -1,1 +1,0 @@
-#include <graphics/vulkan/vulkan_renderer.h>

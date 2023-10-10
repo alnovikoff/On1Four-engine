@@ -11,12 +11,21 @@ add_subdirectory(thirdparty/glfw)
 
 set(SOURCES
     src/core/engine.cpp
+    src/core/layer/layer.cpp
+    src/core/window.cpp
+
+    src/graphics/renderer.cpp
+
     src/drivers/vulkan/vulkan_instance.cpp
     src/drivers/vulkan/vulkan_logging.cpp
     src/drivers/vulkan/vulkan_queue_family.cpp
     src/drivers/vulkan/vulkan_device.cpp
     src/drivers/vulkan/vulkan_swapchain.cpp
     src/drivers/vulkan/vulkan_frame.cpp
+    src/graphics/vulkan/vulkan_pipeline.cpp
+
+
+    src/utils/shader.cpp
 )
 
 #file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp,${PROJECT_SOURCE_DIR}/src/*/*.cpp, ${PROJECT_SOURCE_DIR}/src/*/*/*.cpp )
@@ -44,7 +53,7 @@ target_link_libraries(${PROJECT_NAME}
 
 )
 #link_directories(${VULKAN_PATH}/Bin;${VULKAN_PATH}/Lib32;)
-set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/4251")
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/w4251")
 
 target_link_directories(${PROJECT_NAME} 
     PUBLIC

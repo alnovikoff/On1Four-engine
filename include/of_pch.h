@@ -12,6 +12,7 @@
 #include <queue>
 #include <sstream>
 #include <string>
+#include <fstream>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
