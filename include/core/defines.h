@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEFINES_H
+#define DEFINES_H
 
 // Unsigned int types.
 typedef unsigned char u8;
@@ -97,3 +98,5 @@ STATIC_ASSERT(sizeof(f64) == 8, "Expected f64 to be 8 bytes.");
 #define ON1F_API
 #endif
 #endif
+
+#endif // DEFINES_H

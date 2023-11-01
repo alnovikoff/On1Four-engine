@@ -11,8 +11,8 @@ namespace O1F4Engine
 {
   Engine::Engine()
   {
-    main_window = new Window(800, 600, "Window Title", isDebugMode);
-    main_renderer = new Renderer(main_window->get_window(), 800, 600, isDebugMode);
+    main_window = new O1F4PAL::Window(800, 600, "Window Title", isDebugMode);
+    main_renderer = new O1F4Render::Renderer(main_window->get_window(), 800, 600, isDebugMode);
 
   }
 

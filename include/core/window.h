@@ -6,21 +6,24 @@
 
 namespace O1F4Engine
 {
-	class ON1F_API Window
+	namespace O1F4PAL
 	{
-	public:
-		Window(int width, int height, std::string title, bool isDebug);
+		class ON1F_API Window
+		{
+		public:
+			Window(int width, int height, std::string title, bool isDebug);
 
-		void build_glfw_window();
-		void run();
+			void build_glfw_window();
+			void run();
 
-		GLFWwindow* get_window();
+			GLFWwindow* get_window();
 
-	private:
-		int width;
-		int height;
-		GLFWwindow *window{nullptr};;
-	};
+		private:
+			int width;
+			int height;
+			GLFWwindow *window{nullptr};;
+		};
+	}
 }
 
 #endif // WINDOW_H

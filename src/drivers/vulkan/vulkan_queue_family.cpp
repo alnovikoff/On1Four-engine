@@ -1,45 +1,48 @@
 #include <drivers/vulkan/vulkan_queue_family.h>
 
-namespace O1F4VulkanUtil
+namespace O1F4Engine
 {
-	QueueFamilyIndices findQueueFamilies(vk::PhysicalDevice device, vk::SurfaceKHR surface, bool debug)
+  namespace O1F4Render
   {
-    QueueFamilyIndices indices;
-
-    std::vector<vk::QueueFamilyProperties> queueFamilies = device.getQueueFamilyProperties();
-
-    if (debug)
+    QueueFamilyIndices findQueueFamilies(vk::PhysicalDevice device, vk::SurfaceKHR surface, bool debug)
     {
-      std::cout << "System can support " << queueFamilies.size() << " queueFamilies\n";
-    }
+      QueueFamilyIndices indices;
 
-    int i = 0;
-    for (vk::QueueFamilyProperties queueFamily : queueFamilies)
-    {
-      if (queueFamily.queueFlags & vk::QueueFlagBits::eGraphics)
+      std::vector<vk::QueueFamilyProperties> queueFamilies = device.getQueueFamilyProperties();
+
+      if (debug)
       {
-        indices.graphicsFamily = i;
-        if (debug)
+        std::cout << "System can support " << queueFamilies.size() << " queueFamilies\n";
+      }
+
+      int i = 0;
+      for (vk::QueueFamilyProperties queueFamily : queueFamilies)
+      {
+        if (queueFamily.queueFlags & vk::QueueFlagBits::eGraphics)
         {
-          std::cout << "Queue family " << i << " is suitable for graphics\n";
+          indices.graphicsFamily = i;
+          if (debug)
+          {
+            std::cout << "Queue family " << i << " is suitable for graphics\n";
+          }
         }
-      }
 
-      if (device.getSurfaceSupportKHR(i, surface))
-      {
-        indices.presentFamily = i;
-        if (debug)
+        if (device.getSurfaceSupportKHR(i, surface))
         {
-          std::cout << "Queue family " << i << " is suitable for presenting\n";
+          indices.presentFamily = i;
+          if (debug)
+          {
+            std::cout << "Queue family " << i << " is suitable for presenting\n";
+          }
         }
-      }
 
-      if (indices.isComplete())
-      {
-        break;
+        if (indices.isComplete())
+        {
+          break;
+        }
+        i++;
       }
-      i++;
+      return indices;
     }
-    return indices;
   }
 }

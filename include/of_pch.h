@@ -18,6 +18,11 @@
 #include <vector>
 #include <set>
 #include <string>
+#include <list>
+#include <map>
+
+#include <thread>
+#include <mutex>
 
 #ifdef ON1F_PLATFORM_WINDOWS
 #include <windows.h>

@@ -1,21 +1,24 @@
 #ifndef VULKAN_PIPELINE_H
 #define VULKAN_PIPELINE_H
 
-namespace O1F4Vulkan
+namespace O1F4Engine
 {
-	struct GraphicsPipelineInBundle
+	namespace O1F4Render
 	{
-		vk::Device device;
-		std::string vertexFilepath;
-		vk::Extent2D swapchainExtent;
-	};
+		struct GraphicsPipelineInBundle
+		{
+			vk::Device device;
+			std::string vertexFilepath;
+			vk::Extent2D swapchainExtent;
+		};
 
-	struct GraphicsPipelineOutBundle
-	{
+		struct GraphicsPipelineOutBundle
+		{
 
-	};
+		};
 
-	GraphicsPipelineOutBundle make_graphics_pipeline(GraphicsPipelineInBundle specification, bool debug);
+		GraphicsPipelineOutBundle make_graphics_pipeline(GraphicsPipelineInBundle specification, bool debug);
+	}
 }
 
 #endif

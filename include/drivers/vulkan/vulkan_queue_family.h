@@ -3,20 +3,23 @@
 
 #include <of_pch.h>
 
-namespace O1F4VulkanUtil
+namespace O1F4Engine
 {
-	struct QueueFamilyIndices
-	{
-		std::optional<uint32_t> graphicsFamily;
-		std::optional<uint32_t> presentFamily;
-
-		bool isComplete()
+	namespace O1F4Render
+	{	
+		struct QueueFamilyIndices
 		{
-			return graphicsFamily.has_value() && presentFamily.has_value();
-		}
-	};
+			std::optional<uint32_t> graphicsFamily;
+			std::optional<uint32_t> presentFamily;
 
-	QueueFamilyIndices findQueueFamilies(vk::PhysicalDevice device, vk::SurfaceKHR surface, bool debug);
+			bool isComplete()
+			{
+				return graphicsFamily.has_value() && presentFamily.has_value();
+			}
+		};
+
+		QueueFamilyIndices findQueueFamilies(vk::PhysicalDevice device, vk::SurfaceKHR surface, bool debug);
+	}
 }
 
 #endif //VULKAN_QUEUE_FAMILY

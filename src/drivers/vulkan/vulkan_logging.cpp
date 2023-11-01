@@ -1,7 +1,9 @@
 #include <drivers/vulkan/vulkan_logging.h>
 
-namespace O1F4Vulkan
+namespace O1F4Engine
 {
+  namespace O1F4RenderUtils
+  {
   VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
       VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
       VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -241,5 +243,6 @@ This mode may result in visible tearing if rendering to the image is not timed c
       std::cout << "Other\n";
       break;
     }
+  }
   }
 }

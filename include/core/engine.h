@@ -22,8 +22,8 @@ public:
 private:
     bool isDebugMode = true;
 
-    Window* main_window;
-    Renderer* main_renderer;
+    O1F4PAL::Window* main_window;
+    O1F4Render::Renderer* main_renderer;
   };
 } // namespace O1F4Engine
 #endif // ENGINE_H

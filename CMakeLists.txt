@@ -14,6 +14,18 @@ set(SOURCES
     src/core/layer/layer.cpp
     src/core/window.cpp
 
+    # src/core/event/event.cpp
+    # src/core/event/event_system.cpp
+    # src/core/event/event_listener.cpp
+
+    src/core/thread/task.cpp
+    src/core/thread/task_func.cpp
+    src/core/thread/task_data.cpp
+    src/core/thread/lock.cpp
+    src/core/thread/thread_pool.cpp
+
+
+
     src/graphics/renderer.cpp
 
     src/drivers/vulkan/vulkan_instance.cpp

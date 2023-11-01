@@ -3,11 +3,14 @@
 
 #include <of_pch.h>
 
-namespace O1F4Vulkan
+namespace O1F4Engine
 {
-  bool supported(std::vector<const char *> &extensions, std::vector<const char *> &layers, bool debug);
+  namespace O1F4Render
+  {
+    bool supported(std::vector<const char *> &extensions, std::vector<const char *> &layers, bool debug);
 
-  vk::Instance create_vulkan_instance(bool debug, const char *application_name);
+    vk::Instance create_vulkan_instance(bool debug, const char *application_name);
+  }
 }
 
 #endif // VULKAN_INSTANCE_H

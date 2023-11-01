@@ -8,42 +8,45 @@
 
 namespace O1F4Engine
 {
-  class Renderer
+  namespace O1F4Render
   {
-public:
-    Renderer(GLFWwindow *window, int width, int height, bool isDebug); // Corrected here
-    ~Renderer();
+    class Renderer
+    {
+  public:
+      Renderer(GLFWwindow *window, int width, int height, bool isDebug); // Corrected here
+      ~Renderer();
 
-    // Instance setup
-    void make_instance(GLFWwindow *window, bool isDebug);
+      // Instance setup
+      void make_render_instance(GLFWwindow *window, bool isDebug);
 
-    // Device setup
-    void make_device(int width, int height, bool isDebug);
+      // Device setup
+      void make_device(int width, int height, bool isDebug);
 
-    // Debug messenger
-    void make_debug_messenger(bool isDebug);
+      // Debug messenger
+      void make_debug_messenger(bool isDebug);
 
-    void make_pipeline(bool isDebug);
+      void make_pipeline(bool isDebug);
 
-private:
-    vk::Instance instance{nullptr};
+  private:
+      vk::Instance instance{nullptr};
 
-    // Debug callback
-    vk::DebugUtilsMessengerEXT debugMessenger{nullptr};
+      // Debug callback
+      vk::DebugUtilsMessengerEXT debugMessenger{nullptr};
 
-    // Dynamic instance dispatcher
-    vk::DispatchLoaderDynamic dldi;
-    vk::SurfaceKHR surface;
+      // Dynamic instance dispatcher
+      vk::DispatchLoaderDynamic dldi;
+      vk::SurfaceKHR surface;
 
-    // Device - related variable
-    vk::PhysicalDevice physicalDevice{nullptr};
-    vk::Device device{nullptr};
-    vk::Queue graphicsQueue{nullptr};
-    vk::Queue presentQueue{nullptr};
-    vk::SwapchainKHR swapchain;
-    std::vector<O1F4VulkanUtil::SwapchainFrame> swapchainFrames;
-    vk::Format swapchainFormat;
-    vk::Extent2D swapchainExtent;
-  };
+      // Device - related variable
+      vk::PhysicalDevice physicalDevice{nullptr};
+      vk::Device device{nullptr};
+      vk::Queue graphicsQueue{nullptr};
+      vk::Queue presentQueue{nullptr};
+      vk::SwapchainKHR swapchain;
+      std::vector<O1F4Engine::O1F4Render::SwapchainFrame> swapchainFrames;
+      vk::Format swapchainFormat;
+      vk::Extent2D swapchainExtent;
+    };
+  }
 }
 #endif // RENDERER_H

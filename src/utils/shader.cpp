@@ -1,6 +1,6 @@
 #include <utils/shader.h>
 
-namespace O1F4VulkanUtil
+namespace O1F4EngineUtil
 {
   std::vector<char> readFile(std::string filename, bool debug)
   {

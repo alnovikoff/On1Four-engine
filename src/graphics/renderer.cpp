@@ -8,79 +8,82 @@
 
 namespace O1F4Engine
 {
-	Renderer::Renderer(GLFWwindow* window, int width, int height, bool isDebug)
+	namespace O1F4Render
 	{
-		make_instance(window, isDebug);
-    make_device(800, 600,isDebug);
-    make_pipeline(isDebug);
-	}
-
-	void Renderer::make_instance(GLFWwindow* window, bool isDebugMode)
-	{
-		instance = O1F4Vulkan::create_vulkan_instance(isDebugMode, "On1Four Engine");
-		dldi = vk::DispatchLoaderDynamic(instance, vkGetInstanceProcAddr);
-		if(isDebugMode)
+		Renderer::Renderer(GLFWwindow* window, int width, int height, bool isDebug)
 		{
-			debugMessenger = O1F4Vulkan::make_debug_messenger(instance, dldi);
+			make_render_instance(window, isDebug);
+			make_device(800, 600,isDebug);
+			make_pipeline(isDebug);
 		}
-		VkSurfaceKHR c_style_surface;
-		if(glfwCreateWindowSurface(instance, window, nullptr, &c_style_surface) != VK_SUCCESS)
+
+		void Renderer::make_render_instance(GLFWwindow* window, bool isDebugMode)
 		{
+			instance = create_vulkan_instance(isDebugMode, "On1Four Engine");
+			dldi = vk::DispatchLoaderDynamic(instance, vkGetInstanceProcAddr);
 			if(isDebugMode)
 			{
-				std::cout << "Failed to create abstract the glfwsurface for Vulkan\n";
+				debugMessenger = O1F4RenderUtils::make_debug_messenger(instance, dldi);
 			}
-		}
-		else
-		{
-			if(isDebugMode)
+			VkSurfaceKHR c_style_surface;
+			if(glfwCreateWindowSurface(instance, window, nullptr, &c_style_surface) != VK_SUCCESS)
 			{
-				std::cout << "Successfully abstracteds the glfwsurface for Vulkan\n";
+				if(isDebugMode)
+				{
+					std::cout << "Failed to create abstract the glfwsurface for Vulkan\n";
+				}
 			}
+			else
+			{
+				if(isDebugMode)
+				{
+					std::cout << "Successfully abstracteds the glfwsurface for Vulkan\n";
+				}
+			}
+			surface = c_style_surface;
 		}
-		surface = c_style_surface;
+
+		void Renderer::make_device(int width, int height, bool isDebugMode) 
+		{
+			physicalDevice = choose_physical_device(instance, isDebugMode);
+			device = create_logical_device(physicalDevice, surface, isDebugMode);
+			std::array<vk::Queue, 2> queues = get_queue(physicalDevice, surface, device, isDebugMode);
+			graphicsQueue = queues[0];
+			presentQueue = queues[1];
+			query_swapchain_support(physicalDevice, surface, true);
+			SwapchainBundle bundle = create_swapchain(device, physicalDevice, surface, width, height, isDebugMode);
+			swapchain = bundle.swapchain;
+			swapchainFrames = bundle.frames;
+			swapchainFormat = bundle.format;
+			swapchainExtent = bundle.extent;
+		}
+
+		void Renderer::make_pipeline(bool isDebugMode)
+		{
+			GraphicsPipelineInBundle specification = {};
+			specification.device = device;
+			specification.vertexFilepath = "E:\\MyEngine\\On1Four\\engine\\assets\\shaders\\vertex.spv";
+			specification.swapchainExtent = swapchainExtent;
+
+			GraphicsPipelineOutBundle output = make_graphics_pipeline(specification, isDebugMode);
+		}
+
+		Renderer::~Renderer()
+		{
+			for(SwapchainFrame frame : swapchainFrames)
+			{
+				device.destroyImageView(frame.imageView);
+			}
+			device.destroySwapchainKHR(swapchain);
+			device.destroy();
+			instance.destroySurfaceKHR(surface);
+
+			//if(isDebugMode)
+			//{
+				instance.destroyDebugUtilsMessengerEXT(debugMessenger, nullptr, dldi);
+			//}
+			instance.destroy();
+			glfwTerminate();
+		}
 	}
-
-	void Renderer::make_device(int width, int height, bool isDebugMode) 
-	{
-		physicalDevice = O1F4Vulkan::choose_physical_device(instance, isDebugMode);
-		device = O1F4Vulkan::create_logical_device(physicalDevice, surface, isDebugMode);
-		std::array<vk::Queue, 2> queues = O1F4Vulkan::get_queue(physicalDevice, surface, device, isDebugMode);
-		graphicsQueue = queues[0];
-		presentQueue = queues[1];
-		O1F4Vulkan::query_swapchain_support(physicalDevice, surface, true);
-		O1F4Vulkan::SwapchainBundle bundle = O1F4Vulkan::create_swapchain(device, physicalDevice, surface, width, height, isDebugMode);
-		swapchain = bundle.swapchain;
-		swapchainFrames = bundle.frames;
-		swapchainFormat = bundle.format;
-		swapchainExtent = bundle.extent;
-	}
-
-	void Renderer::make_pipeline(bool isDebugMode)
-	{
-		O1F4Vulkan::GraphicsPipelineInBundle specification = {};
-		specification.device = device;
-		specification.vertexFilepath = "E:\\MyEngine\\On1Four\\engine\\assets\\shaders\\vertex.spv";
-		specification.swapchainExtent = swapchainExtent;
-
-		O1F4Vulkan::GraphicsPipelineOutBundle output = O1F4Vulkan::make_graphics_pipeline(specification, isDebugMode);
-	}
-
-	Renderer::~Renderer()
-  {
-    for(O1F4VulkanUtil::SwapchainFrame frame : swapchainFrames)
-    {
-      device.destroyImageView(frame.imageView);
-    }
-    device.destroySwapchainKHR(swapchain);
-    device.destroy();
-    instance.destroySurfaceKHR(surface);
-
-    //if(isDebugMode)
-    //{
-      instance.destroyDebugUtilsMessengerEXT(debugMessenger, nullptr, dldi);
-    //}
-    instance.destroy();
-    glfwTerminate();
-  }
 }
